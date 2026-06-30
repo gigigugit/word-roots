@@ -52,7 +52,7 @@ def get_db():
 
 
 @app.teardown_appcontext
-def close_db(error):  # noqa: ARG001
+def close_db(_error):
     db = g.pop("db", None)
     if db is not None:
         db.close()
@@ -270,4 +270,5 @@ with app.app_context():
     init_db()
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    debug = os.environ.get("FLASK_DEBUG", "0") == "1"
+    app.run(debug=debug)

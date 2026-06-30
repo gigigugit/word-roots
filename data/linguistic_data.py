@@ -586,7 +586,11 @@ def analyze_word(word):
             if root in ROOTS:
                 return _make_result(word, prefix, root, suffix, True)
 
-            # Try stripping a trailing epenthetic vowel (e.g. "psycho" → "psych")
+            # Try stripping a trailing epenthetic vowel.
+            # Greek/Latin compounds often add a connecting vowel (usually 'o')
+            # between the root and the following element, e.g. "psycho-logy"
+            # is built from root "psych" + connecting "o" + suffix "logy".
+            # Removing that vowel lets us match the canonical root form.
             if root and root[-1] in "aeiou" and root[:-1] in ROOTS:
                 return _make_result(word, prefix, root[:-1], suffix, True)
 
